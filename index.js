@@ -1,30 +1,33 @@
 splitMoney = input => {
   let payers = [];
   let spenders = [];
+  let totals = [];
   input.forEach(e => payers.push(e.Title, e.Payer));
-  input.forEach(e => console.log(e["Title"], e["Payer"]));
   // [ 'Lunch', 'Tommen', 'Movie', 'Kelly' ]
-  input.map(x => Object.keys(x.Spend));
-  // [ [ 'Kelly', 'Sam', 'Ola', 'Tommen', 'Sandy' ],
-  //   [ 'Kelly', 'Sam', 'Ola', 'Tommen', 'Sandy' ] ]
-  input.map(x => Object.values(x.Spend));
-  //   [ [ 5.5, 10, 15, 10, 5 ], [ 10, 10, 10, 10, 10 ] ]
-  input.map(x => Object.keys(x.Spend).map(y => spenders.push(y)));
-  //   [
-  //     "Kelly",
-  //     "Sam",
-  //     "Ola",
-  //     "Tommen",
-  //     "Sandy",
-  //     "Kelly",
-  //     "Sam",
-  //     "Ola",
-  //     "Tommen",
-  //     "Sandy"
-  //   ];
+
+  input.forEach(e => totals.push(e.Total));
+  //   [ 45.5, 50 ]
+
+  let sum = totals.reduce((a, c) => a + c);
+  // 95.5
+
   spenders.filter((v, i) => spenders.indexOf(v) === i);
   // [ 'Kelly', 'Sam', 'Ola', 'Tommen', 'Sandy' ]
   let headcounts = spenders.filter((v, i) => spenders.indexOf(v) === i).length;
+  //   5
+  let mean = sum / headcounts;
+  let spend = [];
+  input.filter(x => spend.push(x.Spend));
+  //   [ { Kelly: 5.5, Sam: 10, Ola: 15, Tommen: 10, Sandy: 5 },
+  //     { Kelly: 10, Sam: 10, Ola: 10, Tommen: 10, Sandy: 10 } ]
+  spend.map(e =>
+    e.reduce((a, b) => {
+      for (let k in b) {
+        if (b.hasOwneProperty(k)) a[k] = (a[k] || 0) + b[k];
+      }
+      return a;
+    })
+  );
 };
 const input = [
   {
