@@ -51,6 +51,24 @@ splitMoney = input => {
   }
   let spendPP = result.pop();
   // => { Kelly: 15.5, Sam: 20, Ola: 25, Tommen: 20, Sandy: 15 }
+  let lenders = [];
+  let loaners = [];
+  payers.forEach((e, k) => {
+    if (e.payer === Object.values(e)[0]) {
+      lenders.push(
+        Object.values(e)[0],
+        Object.values(e)[1] - spendPP[Object.values(e)[0]]
+      );
+    } else {
+      console.log(payers[k++].payer);
+      loaners = spenders.filter(x => x !== payers[k++].payer);
+    }
+  });
+
+  // lenders => [ 'Tommen', 25.5, 'Kelly', 34.5 ]
+  // loaners =>
+  //   [ [ 'Kelly', 'Sam', 'Ola', 'Sandy' ],
+  //   [ 'Sam', 'Ola', 'Tommen', 'Sandy' ] ]
 };
 
 const input = [
