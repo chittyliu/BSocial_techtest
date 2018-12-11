@@ -1,26 +1,34 @@
 splitMoney = input => {
-  let payers = [];
+  // define basic variables for furture needs
   let spenders = [];
   let totals = [];
-  input.forEach(e => payers.push(e.Title, e.Payer));
-  // [ 'Lunch', 'Tommen', 'Movie', 'Kelly' ]
+  let payers = [];
+
+  input.forEach(e => spenders.push(Object.keys(e.Spend)));
+  spenders = spenders.filter((v, i) => spenders.indexOf(v) === i).pop();
+  // => [ 'Kelly', 'Sam', 'Ola', 'Tommen', 'Sandy' ]
+  let headcounts = spenders.filter((v, i) => spenders.indexOf(v) === i).length;
+  // => 5
 
   input.forEach(e => totals.push(e.Total));
-  //   [ 45.5, 50 ]
-
+  // => [ 45.5, 50 ]
   let sum = totals.reduce((a, c) => a + c);
-  // 95.5
+  // => 95.5
 
-  spenders.filter((v, i) => spenders.indexOf(v) === i);
-  // [ 'Kelly', 'Sam', 'Ola', 'Tommen', 'Sandy' ]
-  let headcounts = spenders.filter((v, i) => spenders.indexOf(v) === i).length;
-  //   5
+  for (var i = 0; i < input.length; i++) {
+    payers.push(
+      Object.assign({ payer: input[i].Payer, total: input[i].Total })
+    );
+  }
+  // => [ { payer: 'Tommen', total: 45.5 },
+  //      { payer: 'Kelly', total: 50 } ]
 
-  let mean = sum / headcounts; // pp
+  const mean = sum / headcounts;
+  // => 19.1
   let spend = [];
   input.filter(x => spend.push(x.Spend));
-  // [ { Kelly: 5.5, Sam: 10, Ola: 15, Tommen: 10, Sandy: 5 },
-  //   { Kelly: 10, Sam: 10, Ola: 10, Tommen: 10, Sandy: 10 } ]
+  // => [ { Kelly: 5.5, Sam: 10, Ola: 15, Tommen: 10, Sandy: 5 },
+  //      { Kelly: 10, Sam: 10, Ola: 10, Tommen: 10, Sandy: 10 } ]
 
   var temp = {};
   var obj = null;
@@ -29,6 +37,7 @@ splitMoney = input => {
     obj = spend[i];
     if (!temp[obj.Kelly]) {
       temp[obj.Kelly] = obj;
+      temp[obj.Sam] = obj;
     } else {
       temp[obj.Kelly].Kelly += obj.Kelly;
       temp[obj.Kelly].Sam += obj.Sam;
@@ -40,18 +49,8 @@ splitMoney = input => {
   for (var prop in temp) {
     result.push(temp[prop]);
   }
-  const total = result.pop();
-
-  const kelly = Number((mean - (mean - total.Kelly)).toFixed(2));
-  const sam = Number((mean - (mean - total.Sam)).toFixed(2));
-  const ola = Number((mean - (mean - total.Ola)).toFixed(2));
-  const tommen = Number((mean - (mean - total.Tommen)).toFixed(2));
-  const sandy = Number((mean - (mean - total.Sandy)).toFixed(2));
-
-  const payment1 = totals[0];
-  const payment2 = totals[1];
-  const payer1 = payment1 - tommen;
-  const payer2 = payment2 - kelly;
+  let spendPP = result.pop();
+  // => { Kelly: 15.5, Sam: 20, Ola: 25, Tommen: 20, Sandy: 15 }
 };
 
 const input = [
