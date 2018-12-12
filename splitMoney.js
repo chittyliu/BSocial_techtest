@@ -1,5 +1,19 @@
-splitMoney = input => {
-  // define basic variables for furture needs
+splitMoney = () => {
+  const input = [
+    {
+      Title: "Lunch",
+      Spend: { Kelly: 5.5, Sam: 10, Ola: 15, Tommen: 10, Sandy: 5 },
+      Total: 45.5,
+      Payer: "Tommen"
+    },
+    {
+      Title: "Movie",
+      Spend: { Kelly: 10, Sam: 10, Ola: 10, Tommen: 10, Sandy: 10 },
+      Total: 50,
+      Payer: "Kelly"
+    }
+  ];
+
   let spenders = [];
   let totals = [];
   let payers = [];
@@ -7,12 +21,13 @@ splitMoney = input => {
   input.forEach(e => spenders.push(Object.keys(e.Spend)));
   spenders = spenders.filter((v, i) => spenders.indexOf(v) === i).pop();
   // => [ 'Kelly', 'Sam', 'Ola', 'Tommen', 'Sandy' ]
-  let headcounts = spenders.filter((v, i) => spenders.indexOf(v) === i).length;
+  const headcounts = spenders.filter((v, i) => spenders.indexOf(v) === i)
+    .length;
   // => 5
 
   input.forEach(e => totals.push(e.Total));
   // => [ 45.5, 50 ]
-  let sum = totals.reduce((a, c) => a + c);
+  const sum = totals.reduce((a, c) => a + c);
   // => 95.5
 
   for (var i = 0; i < input.length; i++) {
@@ -52,36 +67,26 @@ splitMoney = input => {
   let spendPP = result.pop();
   // => { Kelly: 15.5, Sam: 20, Ola: 25, Tommen: 20, Sandy: 15 }
   let lenders = [];
-  let loaners = [];
-  payers.forEach((e, k) => {
+  let loaners;
+  payers.forEach(e => {
     if (e.payer === Object.values(e)[0]) {
       lenders.push(
-        Object.values(e)[0],
-        Object.values(e)[1] - spendPP[Object.values(e)[0]]
+        Object.assign({
+          lender: Object.values(e)[0],
+          total: Object.values(e)[1] - spendPP[Object.values(e)[0]]
+        })
       );
-    } else {
-      console.log(payers[k++].payer);
-      loaners = spenders.filter(x => x !== payers[k++].payer);
     }
   });
+  // [ { lender: 'Tommen', total: 25.5 },
+  //   { lender: 'Kelly', total: 34.5 } ]
 
-  // lenders => [ 'Tommen', 25.5, 'Kelly', 34.5 ]
-  // loaners =>
-  //   [ [ 'Kelly', 'Sam', 'Ola', 'Sandy' ],
-  //   [ 'Sam', 'Ola', 'Tommen', 'Sandy' ] ]
+  spenders
+    .filter(x => x !== "Kelly" && x !== "Tommen")
+    .forEach(e => {
+      loaners.push(Object.assign({ loaner: e, total: spendPP[e] }));
+    });
+  // [ { loaner: 'Sam', total: 20 },
+  //   { loaner: 'Ola', total: 25 },
+  //   { loaner: 'Sandy', total: 15 } ]
 };
-
-const input = [
-  {
-    Title: "Lunch",
-    Spend: { Kelly: 5.5, Sam: 10, Ola: 15, Tommen: 10, Sandy: 5 },
-    Total: 45.5,
-    Payer: "Tommen"
-  },
-  {
-    Title: "Movie",
-    Spend: { Kelly: 10, Sam: 10, Ola: 10, Tommen: 10, Sandy: 10 },
-    Total: 50,
-    Payer: "Kelly"
-  }
-];
