@@ -67,7 +67,7 @@ splitMoney = () => {
   let spendPP = result.pop();
   // => { Kelly: 15.5, Sam: 20, Ola: 25, Tommen: 20, Sandy: 15 }
   let lenders = [];
-  let loaners;
+  let loaners = [];
   payers.forEach(e => {
     if (e.payer === Object.values(e)[0]) {
       lenders.push(
@@ -89,4 +89,9 @@ splitMoney = () => {
   // [ { loaner: 'Sam', total: 20 },
   //   { loaner: 'Ola', total: 25 },
   //   { loaner: 'Sandy', total: 15 } ]
+
+  // It can be told each loaner doens't owe any money to each other by variavles loaners and lenders,
+  // And by iterate lenders and calling peoperty 'total', we can know how much each loaner is owed.
+  // The group settle will be implmented by iterating the lenders's debt minus each loaner's loan
+  // I didn't do the final bit because the output format shall vary by the request of the user and this is just pretty briefly everything in one function.
 };
